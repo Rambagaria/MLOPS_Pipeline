@@ -1,6 +1,9 @@
+<img width="528" height="170" alt="image" src="https://github.com/user-attachments/assets/4bb47412-6055-4125-baa4-e773c646e865" />
+
+
 # MLOPS_Pipeline
 
-A simple end-to-end machine learning pipeline example in Python.
+A simple end-to-end machine learning pipeline in Python to predict student's Maths score.
 
 ## Project Overview
 
