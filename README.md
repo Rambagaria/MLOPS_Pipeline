@@ -112,6 +112,7 @@ PY
 A minimal Flask app can serve a prediction form and a `/metrics` endpoint that returns the same evaluation scores. See `app.py` (example) in the repo for a suggested implementation — run with:
 
 ```powershell
-python app.py
+python application.py
 ```
+<img width="627" height="383" alt="image" src="https://github.com/user-attachments/assets/3e1b7f85-57af-4558-8b20-2f355da57bf2" />
 
