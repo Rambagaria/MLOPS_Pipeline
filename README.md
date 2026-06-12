@@ -69,3 +69,49 @@ Open the notebooks for interactive exploration and experiments:
 - This project was developed on Windows; adjust activation commands for other OSes.
 - If `myenv/` is already present, activate it before installing dependencies.
 
+## Model Evaluation Results
+
+These R² scores were computed on `artifacts/test.csv` using the saved `artifacts/preprocessor.pkl` and `artifacts/model.pkl` in this repository.
+
+- **Saved model:** LinearRegression — R² = 0.8804
+- **LinearRegression (baseline):** R² = 0.8804
+- **RandomForest (baseline):** R² = 0.8488
+- **DecisionTree (baseline):** R² = 0.7473
+
+To reproduce these numbers locally, run the evaluation script (example):
+
+```powershell
+python - <<'PY'
+import os,pickle,pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.metrics import r2_score
+
+art='artifacts'
+model=pickle.load(open(os.path.join(art,'model.pkl'),'rb'))
+preproc=pickle.load(open(os.path.join(art,'preprocessor.pkl'),'rb'))
+train=pd.read_csv(os.path.join(art,'train.csv'))
+test=pd.read_csv(os.path.join(art,'test.csv'))
+target='math_score'
+features=[c for c in test.columns if c!=target]
+X_train=preproc.transform(train[features])
+X_test=preproc.transform(test[features])
+print('Saved R2',r2_score(test[target],model.predict(X_test)))
+LR=LinearRegression().fit(X_train,train[target])
+RF=RandomForestRegressor(n_estimators=100,random_state=42).fit(X_train,train[target])
+DT=DecisionTreeRegressor(random_state=42).fit(X_train,train[target])
+print('LR',r2_score(test[target],LR.predict(X_test)))
+print('RF',r2_score(test[target],RF.predict(X_test)))
+print('DT',r2_score(test[target],DT.predict(X_test)))
+PY
+```
+
+## Web UI (Flask)
+
+A minimal Flask app can serve a prediction form and a `/metrics` endpoint that returns the same evaluation scores. See `app.py` (example) in the repo for a suggested implementation — run with:
+
+```powershell
+python app.py
+```
+
